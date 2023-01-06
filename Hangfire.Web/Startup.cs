@@ -1,3 +1,4 @@
+using Hangfire.Web.Services.Email;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,7 +28,7 @@ namespace Hangfire.Web
             {
                 config.UseSqlServerStorage(Configuration.GetConnectionString(name: "HangfireConnection"));
             });
-
+            services.AddScoped<IEmailSender, EmailSender>();
             services.AddHangfireServer();
             services.AddControllersWithViews();
         }
