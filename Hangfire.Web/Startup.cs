@@ -23,6 +23,12 @@ namespace Hangfire.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHangfire(config =>
+            {
+                config.UseSqlServerStorage(Configuration.GetConnectionString(name: "HangfireConnection"));
+            });
+
+            services.AddHangfireServer();
             services.AddControllersWithViews();
         }
 
@@ -42,6 +48,7 @@ namespace Hangfire.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseHangfireDashboard("/hangfire");
             app.UseRouting();
 
             app.UseAuthorization();
